@@ -1,40 +1,20 @@
-# LotLedger — Dealer OS
+LotLedger
+Dealer OS for independent auto lots. Track every vehicle, every cost, and every dollar of projected gross — from acquisition to sale.
 
-Inventory management and cost tracking for independent auto dealers.
+What it does
+LotLedger is a lightweight inventory management tool built for independent car dealers who are tired of spreadsheets. Add vehicles, log every cost (purchase, recon, transport, labor), and see your projected gross margin update in real time.
 
-## Local development
+Inventory tracking — stock number, VIN, mileage, color, days on lot, status
+Cost ledger — itemize every dollar spent per vehicle from purchase to ready-for-sale
+Gross margin dashboard — see total inventory cost basis, asking total, and projected gross at a glance
+PDF exports — one-click inventory reports with your dealership branding
+Frazer import — paste a Frazer export and your inventory populates automatically
+Dark mode — because sometimes you're working late
+Fully local — all data lives in your browser. No account, no server, no subscription.
 
-```bash
-npm install
-npm run dev
-```
 
-## Deploy to Vercel
+Getting started
+On first launch you'll be walked through a short setup — your name, dealership name, phone, email, and address. Takes about 30 seconds. After that, add your first vehicle and you're off.
 
-### Option A — Vercel CLI
-```bash
-npm install -g vercel
-vercel
-```
-Vercel will auto-detect **Vite** as the framework. Accept the defaults.
-
-### Option B — Vercel dashboard (GitHub)
-1. Push this folder to a GitHub repo.
-2. Go to [vercel.com/new](https://vercel.com/new) and import the repo.
-3. Vercel auto-detects Vite — no settings to change.
-4. Click **Deploy**.
-
-### Build settings (auto-detected, shown for reference)
-| Setting | Value |
-|---|---|
-| Framework preset | Vite |
-| Build command | `npm run build` |
-| Output directory | `dist` |
-| Install command | `npm install` |
-
-## Tech stack
-- React 18
-- Vite 5
-- Tailwind CSS 3
-- lucide-react icons
-- jsPDF (loaded on-demand for PDF export)
+Tech
+React 18 · Vite 5 · Tailwind CSS 3 · lucide-react · jsPDF
