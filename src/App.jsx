@@ -363,15 +363,22 @@ const Sidebar = ({ active, setActive, onAddVehicle, dealer }) => {
       </nav>
 
       <div className="px-3 py-4" style={{ borderTop: '1px solid rgba(255,255,255,0.05)' }}>
-        <div className="flex items-center gap-2.5 px-3">
-          <div className="w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold" style={{ background: 'linear-gradient(135deg, #fcd34d, #d97706)', color: '#0f1e18' }}>
+        <button
+          onClick={() => setActive('settings')}
+          className="w-full flex items-center gap-2.5 px-3 py-2 rounded-lg transition-all text-left"
+          style={{ background: 'transparent' }}
+          onMouseEnter={e => e.currentTarget.style.background = 'rgba(255,255,255,0.05)'}
+          onMouseLeave={e => e.currentTarget.style.background = 'transparent'}
+          title="Go to Settings"
+        >
+          <div className="w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0" style={{ background: 'linear-gradient(135deg, #fcd34d, #d97706)', color: '#0f1e18' }}>
             {initials}
           </div>
           <div className="flex-1 min-w-0">
             <div className="text-xs font-medium truncate" style={{ color: theme.sidebarText }}>{dealer.userName}</div>
             <div className="text-[10px] truncate" style={{ color: theme.sidebarMuted }}>{dealer.name}</div>
           </div>
-        </div>
+        </button>
       </div>
     </aside>
   );
@@ -1021,7 +1028,7 @@ const Reports = ({ vehicles, dealer }) => {
 };
 
 // ─── Settings ─────────────────────────────────────────────────
-const SettingsPage = ({ dealer, setDealer, vehicles, setVehicles, onImportFrazer }) => {
+const SettingsPage = ({ dealer, setDealer, vehicles, setVehicles, onImportFrazer, setOnboarded }) => {
   const { theme, themeName, setThemeName } = useTheme();
   const [draftDealer, setDraftDealer] = useState(dealer);
   const [savedFlash, setSavedFlash] = useState(false);
@@ -1041,11 +1048,10 @@ const SettingsPage = ({ dealer, setDealer, vehicles, setVehicles, onImportFrazer
   const handleReset = () => {
     try { localStorage.removeItem(STORAGE_KEY); } catch (e) {}
     setDealer(defaultDealer);
-    setVehicles(seedVehicles);
+    setVehicles([]);
     setThemeName('light');
+    setOnboarded(false);
     setShowResetConfirm(false);
-    setSavedFlash(true);
-    setTimeout(() => setSavedFlash(false), 2500);
   };
 
   const themeOptions = [
@@ -2305,6 +2311,7 @@ export default function App() {
   const [dealer, setDealer] = useState(persisted?.dealer || defaultDealer);
   const [onboarded, setOnboarded] = useState(persisted?.onboarded || false);
   const [importFlash, setImportFlash] = useState(null);
+  const [vehicleToast, setVehicleToast] = useState(null);
 
   // Persist any state change (vehicles, dealer, theme)
   useEffect(() => {
@@ -2326,6 +2333,8 @@ export default function App() {
   const handleAddVehicle = (newV) => {
     setVehicles(prev => [newV, ...prev]);
     setShowAddModal(false);
+    setVehicleToast(`${newV.year} ${newV.make} ${newV.model}`);
+    setTimeout(() => setVehicleToast(null), 3500);
   };
 
   const handleSaveEdit = (updated) => {
@@ -2414,7 +2423,7 @@ export default function App() {
             />
           )}
           {view === 'reports' && <Reports vehicles={vehicles} dealer={dealer} />}
-          {view === 'settings' && <SettingsPage dealer={dealer} setDealer={setDealer} vehicles={vehicles} setVehicles={setVehicles} onImportFrazer={() => setShowImportModal(true)} />}
+          {view === 'settings' && <SettingsPage dealer={dealer} setDealer={setDealer} vehicles={vehicles} setVehicles={setVehicles} onImportFrazer={() => setShowImportModal(true)} setOnboarded={setOnboarded} />}
           {view === 'detail' && selectedVehicle && (
             <VehicleDetail
               vehicle={selectedVehicle}
@@ -2440,6 +2449,25 @@ export default function App() {
               </div>
             </div>
             <button onClick={() => setImportFlash(null)} className="p-1 rounded transition" style={{ color: theme.textSubtle }}
+              onMouseEnter={e => e.currentTarget.style.background = theme.surfaceMuted}
+              onMouseLeave={e => e.currentTarget.style.background = 'transparent'}
+            >
+              <X size={14} />
+            </button>
+          </div>
+        )}
+
+        {/* Vehicle added toast */}
+        {vehicleToast && (
+          <div className="fixed bottom-6 right-6 z-50 rounded-lg shadow-2xl px-5 py-4 flex items-center gap-3 animate-fadeIn" style={{ background: theme.surface, border: `1px solid ${theme.border}`, minWidth: 300 }}>
+            <div className="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0" style={{ background: theme.name === 'dark' ? 'rgba(16,185,129,0.15)' : '#ecfdf5' }}>
+              <CheckCircle2 size={20} style={{ color: theme.accent }} />
+            </div>
+            <div className="flex-1">
+              <div className="text-sm font-semibold" style={{ color: theme.text }}>Vehicle added</div>
+              <div className="text-xs mt-0.5" style={{ color: theme.textMuted }}>{vehicleToast}</div>
+            </div>
+            <button onClick={() => setVehicleToast(null)} className="p-1 rounded transition" style={{ color: theme.textSubtle }}
               onMouseEnter={e => e.currentTarget.style.background = theme.surfaceMuted}
               onMouseLeave={e => e.currentTarget.style.background = 'transparent'}
             >
