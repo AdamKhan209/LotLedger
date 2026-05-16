@@ -1,26 +1,40 @@
-LotLedger — Modern Dealer Inventory & Profit Tracking
+# LotLedger — Dealer OS
 
-LotLedger is a sleek dealership operating system built for independent auto dealers who want complete visibility into their inventory, cost basis, and projected profits. Track every vehicle from acquisition to sale with a clean, premium dashboard designed to simplify inventory management and maximize margins.
+Inventory management and cost tracking for independent auto dealers.
 
-With real-time cost tracking, aging alerts, PDF exports, Frazer DMS importing, and detailed vehicle profit breakdowns, LotLedger gives dealers the tools to manage their lot smarter — without the clutter of outdated dealership software.
+## Local development
 
-Key Features
-Full inventory management dashboard
-Vehicle cost tracking & profit projections
-Aging inventory alerts
-Detailed vehicle ledger system
-Frazer DMS CSV import support
-PDF inventory & report exporting
-Dark mode & light mode themes
-Modern responsive UI optimized for dealerships
-Vehicle status tracking (Available, Recon, Sold)
-Search, filtering, and analytics tools
+```bash
+npm install
+npm run dev
+```
 
-Perfect for:
+## Deploy to Vercel
 
-Independent car dealerships
-Used car lots
-Auto wholesalers
-Buy-here-pay-here operations
-Dealer inventory managers
+### Option A — Vercel CLI
+```bash
+npm install -g vercel
+vercel
+```
+Vercel will auto-detect **Vite** as the framework. Accept the defaults.
 
+### Option B — Vercel dashboard (GitHub)
+1. Push this folder to a GitHub repo.
+2. Go to [vercel.com/new](https://vercel.com/new) and import the repo.
+3. Vercel auto-detects Vite — no settings to change.
+4. Click **Deploy**.
+
+### Build settings (auto-detected, shown for reference)
+| Setting | Value |
+|---|---|
+| Framework preset | Vite |
+| Build command | `npm run build` |
+| Output directory | `dist` |
+| Install command | `npm install` |
+
+## Tech stack
+- React 18
+- Vite 5
+- Tailwind CSS 3
+- lucide-react icons
+- jsPDF (loaded on-demand for PDF export)
